@@ -3,9 +3,99 @@
 <head>
     <title>Evacuation Zone Helper</title>
 	<meta charset="utf-8" />
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
+
   <script src="Scripts/jquery-1.9.1.min.js"></script>
   <link href="Content/bootstrap.min.css" rel="stylesheet" />
   <link href="Content/bootstrap-theme.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://js.arcgis.com/3.20/esri/css/esri.css">
+  <script src="https://js.arcgis.com/3.20/"></script>
+  <style>    
+    #EvacMap
+    {
+      height:600px;
+      width: 78%;
+      display: inline-block !important;
+    }
+    #legendDiv
+    {
+      padding: 1em; 
+      display: inline-block !important;
+      width: 20%;
+      height: 600px;
+      border: solid black 1px;
+    }
+    .glyphicon-refresh-animate
+    {
+      -webkit-animation: spinw .7s infinite linear;
+      -moz-animation: spin .7s infinite linear;
+      -o-animation: spin .7s infinite linear;
+      animation: spin .7s infinite linear;
+    }
+
+    @keyframes spin
+    {
+      from
+      {
+        -moz-transform: scale(1) rotate(0deg);
+        -ms-transform: scale(1) rotate(0deg);
+        -o-transform: scale(1) rotate(0deg);
+        -webkit-transform: scale(1) rotate(0deg);
+        transform: scale(1) rotate(0deg);
+      }
+
+      to
+      {
+        -moz-transform: scale(1) rotate(360deg);
+        -ms-transform: scale(1) rotate(360deg);
+        -o-transform: scale(1) rotate(360deg);
+        -webkit-transform: scale(1) rotate(360deg);
+        transform: scale(1) rotate(360deg);
+      }
+    }
+
+    @-webkit-keyframes spinw
+    {
+      from
+      {
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+
+      to
+      {
+        -webkit-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+
+    @-moz-keyframes spinm
+    {
+      from
+      {
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+
+      to
+      {
+        -moz-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+  </style>
 </head>
 <body class="container">
   <div class="headerBox container bg-info">
@@ -13,155 +103,72 @@
       Evacuation Zone Helper
     </h3>
     <p>
-      You can use this application to find if a given address is in an Evacuation Zone. 
+      You can use this application to find if a given address is in an Evacuation Zone.
       Please type in the house number, and part of the street name to search.
     </p>
   </div>
 
-    <div style="margin-top: 1em;"
-         class="form-group row">
-      <label class="control-label col-sm-2"
-             for="house">House Number</label>
-      <div class="col-sm-10">
-        <input type="number"
-               class="form-control"
-               required
-               placeholder="House Number"
-               id="house" />
-      </div>
+  <div style="margin-top: 1em;"
+       class="form-group row">
+    <label class="control-label col-sm-2"
+           for="house">House Number</label>
+    <div class="col-sm-10">
+      <input type="number"
+             class="form-control"
+             required
+             placeholder="House Number"
+             id="house" />
     </div>
-    <div class="form-group row">
-      <label class="control-label col-sm-2"
-             for="street">Street Name</label>
-      <div class="col-sm-10">
-        <input type="text"
-               required
-               class="form-control"
-               placeholder="Street Name"
-               maxlength="25"
-               id="street" />
-      </div>
+  </div>
+  <div class="form-group row">
+    <label class="control-label col-sm-2"
+           for="street">Street Name</label>
+    <div class="col-sm-10">
+      <input type="text"
+             required
+             class="form-control"
+             placeholder="Street Name"
+             maxlength="25"
+             id="street" />
     </div>
-    <span style="display: none;"
-          class="alert alert-danger row"
-          role="alert"
-          id="Error">
+  </div>
+  <span style="display: none;"
+        class="alert alert-danger row"
+        role="alert"
+        id="Error">
 
-    </span>
-    <div class="row">
-      <button
-             id="btnSearch"
-             onclick="return Search(event); return false;"
-             class="col-sm-offset-2 btn btn-primary btn-lg">
+  </span>
+  <div style="margin-bottom: 1em;"
+       class="row">
+    <button id="btnSearch"
+            onclick="return Search(event);"
+            class="col-sm-offset-2 btn btn-primary btn-lg">
       Search
-        </button>
+    </button>
+    <div style="display: none; margin-left: 1em;"
+         id="Searching">
+      <h4 style="display: inline;">Searching...</h4>
+      <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
     </div>
-    <div style="display: none;"
-         class="container"
-         id="results">
+  </div>
+  <div style="display: none; margin-bottom: 1em;"
+       class="container"
+       id="results">
 
-    </div>
+  </div>
+
+  <div id="EvacMap"></div>
+  <div id="legendDiv"></div>
+
+  <script src="Scripts/app.js"></script>
+  <script src="Scripts/map.js"></script>
   <script type="text/javascript">
-    function Search(ev) {
-      ev.preventDefault();
-      var e = document.getElementById('Error');
-      e.innerText = "";
-      e.style.display = "none";
-
-      if (!Validate()) {
-        e.innerText = "Please check the values entered and try again.  The house number must be a number, and the street must not contain numbers."
-        e.style.display = "block";
-        console.log(e.innerText);
-        return;
-      }
-      var SearchAddress = {
-        house: document.getElementById('house').value,
-        street: document.getElementById('street').value.toUpperCase()
-      }
-      
-      console.log("true", SearchAddress);
-      $.post(
-        './API/Evac/',
-        SearchAddress,
-        Success,
-        'json');
-      return true;
-    }
-    function Success(data, status, jqxhr) {
-      
-      console.log('success', data);
-      BuildResults(data);
-    }
-    function Validate() {
-      var housenumber = document.getElementById('house').value;
-      var street = document.getElementById('street').value;
-      console.log(housenumber, street);
-      return (housenumber.length > 0 && street.length > 0)
-    }
-
-    function BuildResults(data) {
-      var target = document.getElementById('results');
-      target.innerHTML = "";
-      var table = document.createElement("table");
-      table.classList.add("table", "table-striped");
-      table.appendChild(BuildTableHeaderRow());
-      var tbody = document.createElement("tbody");
-      if (data.length == 0) {
-        var row = document.createElement("tr");
-        var cell = document.createElement("td");
-        cell.colSpan = 4;
-        cell.appendChild(document.createTextNode("No data was found for this search."));
-        row.appendChild(cell);
-        tbody.appendChild(row);
-      }
-      else {
-        data.map(function (d) {
-          var row = BuildTableRow(
-            d.EvacZone,
-            d.WholeAddress,
-            d.City,
-            d.Zip,
-            false);
-          tbody.appendChild(row);
-        });
-      }
-      table.appendChild(tbody);
-      target.appendChild(table);
-      target.style.display = "block";
-    }
-
-    function BuildTableHeaderRow()
-      {
-        let thead = document.createElement("thead");
-        let row = BuildTableRow("Evac Zone", "Whole Address", "City",
-          "Zip", true);
-        thead.appendChild(row);
-        return thead;
-      }
-
-      function BuildTableRow(
-        zone,
-        address,
-        city,
-        zip,
-        isHeader)
-        {
-          var row = document.createElement("tr");
-          var colTag = (isHeader ? "TH" : "TD");
-          row.appendChild(createTableElement(zone, "15%", colTag));
-          row.appendChild(createTableElement(address, "45%", colTag));
-          row.appendChild(createTableElement(city, "25%", colTag));
-          row.appendChild(createTableElement(zip, "15%", colTag));
-          return row;
-      }
-
-      function createTableElement(value, width, colTag) {
-        var d = document.createElement(colTag);
-        d.style.width = width;
-        d.appendChild(document.createTextNode(value));
-        return d;
-      }
-
+    var EM = null;
+    document.addEventListener("DOMContentLoaded", function (event)
+    {
+      MapStart()
+    });
   </script>
 </body>
+
 </html>

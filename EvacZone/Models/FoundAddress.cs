@@ -44,6 +44,7 @@ namespace EvacZone.Models
       //DynamicParameters dp = new DynamicParameters();
       //dp.Add("@Street", street);
       //dp.Add("@Street", house);
+      sa.street = sa.street.ToUpper();
       string query = $@"
         SELECT 
         ISNULL(E.EvacLevel, 'None') AS EvacZone, 
@@ -59,7 +60,7 @@ namespace EvacZone.Models
           XCoord,
           YCoord,
           Shape FROM ADDRESS_SITE 
-	        WHERE UPPER(WholeAddress) like '%@street%'
+	        WHERE UPPER(WholeAddress) like '%' + @street + '%'
 		        AND House = @house
 		        AND Active='Y'
 	        ) AS A
