@@ -36,15 +36,12 @@ function MapStart()
       //add the legend
       EM.on("layers-add-result", function (evt)
       {
-        console.log('layer-add-resul', evt);
         var layerInfo = arrayUtils.map(evt.layers, function (layer, index)
         {
-          console.log(layer, index);
           return { layer: layer.layer, title: layer.layer.name };
         });
         if (layerInfo.length > 0)
         {
-          console.log('layerinfo', layerInfo);
           var legendDijit = new Legend({
             map: EM,
             layerInfos: layerInfo
@@ -54,11 +51,7 @@ function MapStart()
       });
 
       LocationLayer = new esri.layers.GraphicsLayer();
-      //EM.addLayer(LocationLayer);
       EM.addLayers([evacZone, LocationLayer, parcels]);
-      //defaultExtent = new esri.geometry.Extent(-82.31395416259558, 29.752280075700344, -81.28604583740163, 30.14732756963145,
-      //  new esri.SpatialReference({ wkid: 4326 }));
-      //EM.extent = defaultExtent;
     });
 }
 function Zoom(latlong)
@@ -69,7 +62,6 @@ function Zoom(latlong)
     "esri/SpatialReference",],
     function (Point, PictureMarkerSymbol, Graphic, SpatialReference)
     {
-      
       var symbol = new PictureMarkerSymbol({
         "angle": 0,
         "xoffset": 0,

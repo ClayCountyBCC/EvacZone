@@ -10,7 +10,6 @@
   {
     e.innerText = "Please check the values entered and try again.  The house number must be a number, and the street must not contain numbers."
     e.style.display = "block";
-    console.log(e.innerText);
     return;
   }
   var SearchAddress = {
@@ -18,7 +17,6 @@
     street: document.getElementById('street').value.toUpperCase()
   }
 
-  //console.log("true", SearchAddress);
   $.post(
     './API/Evac/',
     SearchAddress,
@@ -29,7 +27,6 @@
 
 function Success(data, status, jqxhr)
 {
-  console.log('success', data);
   BuildResults(data);
   document.getElementById('Searching').style.display = "none";
 }
@@ -38,7 +35,6 @@ function Validate()
 {
   var housenumber = document.getElementById('house').value;
   var street = document.getElementById('street').value;
-  console.log(housenumber, street);
   return (housenumber.length > 0 && street.length > 0)
 }
 
