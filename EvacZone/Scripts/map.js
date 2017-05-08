@@ -25,10 +25,14 @@ function MapStart()
         center: [-81.80, 29.950],
         zoom: 10,
         basemap: "osm",
+        smartNavigation: false,
         logo: false
       });
+      EM.disablePan();
+      EM.disableScrollWheelZoom();
+      EM.disableMapNavigation();
       var evacZone = new ArcGISDynamicMapServiceLayer('https://maps.claycountygov.com:6443/arcgis/rest/services/EvacuationZones/MapServer');
-
+      var parcels = new ArcGISDynamicMapServiceLayer('https://maps.claycountygov.com:6443/arcgis/rest/services/Parcel/MapServer');
       //add the legend
       EM.on("layers-add-result", function (evt)
       {
@@ -49,13 +53,9 @@ function MapStart()
         }
       });
 
-
-
-
-
       LocationLayer = new esri.layers.GraphicsLayer();
       //EM.addLayer(LocationLayer);
-      EM.addLayers([evacZone, LocationLayer]);
+      EM.addLayers([evacZone, LocationLayer, parcels]);
       //defaultExtent = new esri.geometry.Extent(-82.31395416259558, 29.752280075700344, -81.28604583740163, 30.14732756963145,
       //  new esri.SpatialReference({ wkid: 4326 }));
       //EM.extent = defaultExtent;
@@ -81,13 +81,14 @@ function Zoom(latlong)
         "url": "https://static.arcgis.com/images/Symbols/Basic/SpringGreenStickpin.png"
       });
       LocationLayer.clear();
-      var p = new Point([latlong.Longitude, latlong.Latitude]);
-      EM.centerAndZoom(p, 16);
-      //var incident = new Point([xcoord, ycoord], new SpatialReference({ wkid: 4326 }));
-      var wmIncident = esri.geometry.geographicToWebMercator(p);
-      var graphic = new Graphic(wmIncident);
+      var p = new Point([latlong.Longitude, latlong.Latitude]);      
+      //var p = new Point([latlong.OriginalX, latlong.OriginalY], new SpatialReference({ wkid: 4326 }));
+      //var wmIncident = esri.geometry.geographicToWebMercator(p);
+      //var graphic = new Graphic(wmIncident);
+      var graphic = new Graphic(p);
       graphic.setSymbol(symbol);
       LocationLayer.add(graphic);
+      EM.centerAndZoom(p, 16);
     });
 
 }

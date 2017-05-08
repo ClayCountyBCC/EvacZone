@@ -62,7 +62,6 @@ namespace EvacZone.Models
           Shape FROM ADDRESS_SITE 
 	        WHERE UPPER(WholeAddress) like '%' + @street + '%'
 		        AND House = @house
-		        AND Active='Y'
 	        ) AS A
         LEFT OUTER JOIN EVACUATIONZONES E ON E.Shape.STIntersects(A.Shape) = 1";
       try
