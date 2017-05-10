@@ -107,56 +107,56 @@
       Please type in the house number, and part of the street name to search.
     </p>
   </div>
-
-  <div style="margin-top: 1em;"
-       class="form-group row">
-    <label class="control-label col-sm-2"
-           for="house">House Number</label>
-    <div class="col-sm-10">
-      <input type="number"
-             class="form-control"
-             required
-             placeholder="House Number"
-             id="house" />
+  <form onsubmit="return Search(event);)">
+    <div style="margin-top: 1em;"
+         class="form-group row">
+      <label class="control-label col-sm-2"
+             for="house">House Number</label>
+      <div class="col-sm-10">
+        <input type="number"
+               class="form-control"
+               required
+               placeholder="House Number"
+               id="house" />
+      </div>
     </div>
-  </div>
-  <div class="form-group row">
-    <label class="control-label col-sm-2"
-           for="street">Street Name</label>
-    <div class="col-sm-10">
-      <input type="text"
-             required
-             class="form-control"
-             placeholder="Street Name"
-             maxlength="25"
-             id="street" />
+    <div class="form-group row">
+      <label class="control-label col-sm-2"
+             for="street">Street Name</label>
+      <div class="col-sm-10">
+        <input type="text"
+               required
+               class="form-control"
+               placeholder="Street Name"
+               maxlength="25"
+               id="street" />
+      </div>
     </div>
-  </div>
-  <span style="display: none;"
-        class="alert alert-danger row"
-        role="alert"
-        id="Error">
+    <span style="display: none;"
+          class="alert alert-danger row"
+          role="alert"
+          id="Error">
 
-  </span>
-  <div style="margin-bottom: 1em;"
-       class="row">
-    <button id="btnSearch"
-            onclick="return Search(event);"
-            class="col-sm-offset-2 btn btn-primary btn-lg">
-      Search
-    </button>
-    <div style="display: none; margin-left: 1em;"
-         id="Searching">
-      <h4 style="display: inline;">Searching...</h4>
-      <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
+    </span>
+    <div style="margin-bottom: 1em;"
+         class="row">
+      <button id="btnSearch"
+              onclick="return Search(event);"
+              class="col-sm-offset-2 btn btn-primary btn-lg">
+        Search
+      </button>
+      <div style="display: none; margin-left: 1em;"
+           id="Searching">
+        <h4 style="display: inline;">Searching...</h4>
+        <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
+      </div>
     </div>
-  </div>
-  <div style="display: none; margin-bottom: 1em;"
-       class="container"
-       id="results">
+    <div style="display: none; margin-bottom: 1em;"
+         class="container"
+         id="results">
 
-  </div>
-
+    </div>
+  </form>
   <div id="EvacMap"></div>
   <div id="legendDiv"></div>
 

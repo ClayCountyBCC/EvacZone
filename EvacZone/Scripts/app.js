@@ -29,6 +29,11 @@ function Success(data, status, jqxhr)
 {
   BuildResults(data);
   document.getElementById('Searching').style.display = "none";
+  console.log(data);
+  if (data.length == 1)
+  {
+    Zoom(data[0].ToLatLong);
+  }
 }
 
 function Validate()
