@@ -1,6 +1,5 @@
 ﻿function Search(ev)
 {
-  document.getElementById('Searching').style.display = "inline-block";
   ev.preventDefault();
   var e = document.getElementById('Error');
   e.innerText = "";
@@ -12,6 +11,7 @@
     e.style.display = "block";
     return;
   }
+  document.getElementById('Searching').style.display = "inline-block";
   var SearchAddress = {
     house: document.getElementById('house').value,
     street: document.getElementById('street').value.toUpperCase()

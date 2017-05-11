@@ -5,13 +5,31 @@
       <string>c:\users\mccartneyd\documents\visual studio 2015\projects\evaczone\evaczone\controllers\evaccontroller.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>C:\Users\mccartneyd\Documents\Visual Studio 2015\Projects\EvacZone\EvacZone\index.html</string>
+      <string>c:\users\mccartneyd\documents\visual studio 2015\projects\evaczone\evaczone\index.html</string>
     </ArrayOfString>
     <ArrayOfString>
       <string>c:\users\mccartneyd\documents\visual studio 2015\projects\evaczone\evaczone\models\searchaddress.cs</string>
     </ArrayOfString>
     <ArrayOfString>
       <string>c:\users\mccartneyd\documents\visual studio 2015\projects\evaczone\evaczone\models\foundaddress.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>c:\users\mccartneyd\documents\visual studio 2015\projects\evaczone\evaczone\web.config</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>c:\users\mccartneyd\documents\visual studio 2015\projects\evaczone\evaczone\.gitignore</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>c:\users\mccartneyd\documents\visual studio 2015\projects\evaczone\evaczone\connectionstrings.config</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>c:\users\mccartneyd\documents\visual studio 2015\projects\evaczone\evaczone\models\latlong.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>c:\users\mccartneyd\documents\visual studio 2015\projects\evaczone\evaczone\scripts\map.js</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Users\mccartneyd\Documents\Visual Studio 2015\Projects\EvacZone\EvacZone\Scripts\app.js</string>
     </ArrayOfString>
   </ArrayOfArrayOfString>
 </ArrayOfArrayOfArrayOfString>
