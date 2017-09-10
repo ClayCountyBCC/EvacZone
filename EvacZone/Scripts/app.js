@@ -32,7 +32,7 @@ function Success(data, status, jqxhr)
   console.log(data);
   if (data.length == 1)
   {
-    Zoom(data[0].ToLatLong);
+    Zoom(data[0].ToLatLong, data[0].EvacZone);
   }
 }
 
@@ -64,6 +64,7 @@ function BuildResults(data)
   {
     data.map(function (d)
     {
+      console.log('evaczone in data.map', d.EvacZone);
       var row = BuildTableRow(
         d.EvacZone,
         d.WholeAddress,
@@ -83,7 +84,7 @@ function BuildTableHeaderRow()
 {
   let thead = document.createElement("thead");
   let row = BuildTableRow("Evac Zone", "Whole Address", "City",
-    "Zip", "", true);
+    "Zip", "", "", true);
   thead.appendChild(row);
   return thead;
 }
@@ -102,7 +103,7 @@ function BuildTableRow(
   row.appendChild(createTableElement(address, "40%", colTag));
   row.appendChild(createTableElement(city, "20%", colTag));
   row.appendChild(createTableElement(zip, "10%", colTag));
-  row.appendChild(createTableButton(latlong, "15%", colTag));
+  row.appendChild(createTableButton(latlong, zone, "15%", colTag));
   return row;
 }
 
@@ -113,8 +114,9 @@ function createTableElement(value, width, colTag)
   d.appendChild(document.createTextNode(value));
   return d;
 }
-function createTableButton(value, width, colTag)
+function createTableButton(value, evacZone, width, colTag)
 {
+  console.log('createtablebutton evaczone', evacZone);
   if (colTag == "TH") return createTableElement("", width, colTag);
   var d = document.createElement(colTag);
   d.style.width = width;
@@ -125,7 +127,7 @@ function createTableButton(value, width, colTag)
   add.appendChild(document.createTextNode("View on Map"));
   add.onclick = function()
   {
-    Zoom(value);
+    Zoom(value, evacZone);
   }
   d.appendChild(add);
 
